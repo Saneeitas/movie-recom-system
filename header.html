@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./bootstrap5/css/bootstrap.css" />
+    <link rel="stylesheet" href="../font-awesome/css/font-awesome.min.css">
+    <title><?php if(isset($pageTitle)){
+              echo ($pageTitle);
+            } else {echo ('MovieSplash');} ?>
+    </title>
+    <script src="./jquery.js"></script>
+
+    <script defer>
+      function showHint(str) {
+        if (str.length == 0) {
+          document.getElementById("txtHint").innerHTML = "";
+          return;
+        } else {
+          var xmlhttp = new XMLHttpRequest();
+          xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+              
+              console.log(this.responseText);
+              document.getElementById("txtHint").innerHTML =  this.responseText;
+            }
+          };
+          xmlhttp.open("GET", "gethint.php?q=" + str,);
+          xmlhttp.send();
+        }
+      }
+    </script>
+
+    <!-- <script defer>
+      $(document).ready(function(){
+          $('.search-box input[type="text"]').on("keyup input", function(){
+              /* Get input value on change */
+              var inputVal = $(this).val();
+              var resultDropdown = $(this).siblings(".result");
+              if(inputVal.length){
+                  $.get("backend-search.php", {term: inputVal}).done(function(data){
+                      // Display the returned data in browser
+                      resultDropdown.html(data);
+                  });
+              } else{
+                  resultDropdown.empty();
+              }
+          });
+          
+          // Set search input value on click of result item
+          $(document).on("click", ".result p", function(){
+              $(this).parents(".search-box").find('input[type="text"]').val($(this).text());
+              $(this).parent(".result").empty();
+          });
+      });
+    </script> -->
+
+    <!-- <script src="../search.js"></script> -->
+  
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom border-light border-1">
+      <div class="container-fluid">
+        <a class="navbar-brand text-success fs-1 fw-bolder" href="#"
+          >MovieSplash</a
+        >
+        <form class="d-flex flex-wrap text-secondary">
+          <input
+            class="search-box form-control me-2 "
+            type="text"
+            id="fname" 
+            name="fname" 
+            placeholder="Type to Search movies..."
+            autocomplete="off"
+            onkeyup="showHint(this.value)"
+            />
+            <div id="txtHint" class="d-flex flex-column "></div>
+          <!-- <button class="btn btn-outline-success" type="submit" name="search">Search</button> -->
+        </form>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div
+          class="collapse navbar-collapse flex-grow-0"
+          id="navbarSupportedContent"
+        >
+          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link btn btn-success me-5 px-3 text-white btn-lg" href="movies.php">
+                Movies
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link btn btn-success me-5 px-3 text-white btn-lg" href="ratingTable.php">
+                View Ratings
+              </a>
+            </li>
+            <?php
+             if (!isset($_SESSION['loggedIn'])) {
+              echo('
+              <li class="nav-item">
+                <a class="nav-link btn btn-success mx-4 px-3 text-white btn-lg" href="signup.php">
+                  SignUp
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link btn btn-success mx-4 px-3 text-white btn-lg" href="login.php">
+                  Login
+                </a>
+              </li>');
+              } else {
+                echo('
+                <li class="nav-item">
+                  <a class="nav-link btn btn-success mx-4 px-3 text-white btn-lg" href="logout.php">
+                    Logout
+                  </a>
+                </li>
+              ');
+               }?>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </body>
+</html>
